@@ -1,0 +1,39 @@
+﻿{
+	"key0" : "value0",
+	"key1" : true,
+	"key2" : false,
+	"key3" : null,
+	"key5": [
+			],
+	"key6": {
+			},
+	"key7":	[
+			    1,
+			    2,
+			    3,
+			    "hello world",
+			    {"sk":"anobj"}
+			],
+	"key8": {
+				"sk1":"hello",
+				"sk2":{"sk2a":1234,"sk2b":[5,{"sk3":42}]},
+				"sk3":[1,2],
+				"sk4":[]
+			},
+	"key9_int": 1234567890,
+	"key10_negint": -1234567890,
+	"key11_frac": 1234.5678,
+	"key12_negfrac": -1234.5678,
+	"key13_intexp": 1234e56,
+	"key14_dec": 123.45E67,
+  "key15_negdec": -123.45E-67,
+  "key16_0":  0,
+	"key20_esc":"hello\/world",
+	"key21_esc":"hello\"world\"",
+	"key22_esc":"hello\\world",
+	"key23_esc":"hello\bworld",
+	"key24_esc":"hello\nworld",
+	"key25_esc":"hello\rworld",
+	"key26_esc":"hello\tworld",
+	"key27_esc":"hello\u12AFworld"
+}

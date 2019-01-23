@@ -1,7 +1,48 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>net451;netstandard2.0;net462;netcoreapp2.1</TargetFrameworks>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;TFM_NETSTANDARD20;CPU_ANY</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;TFM_NETSTANDARD20;CPU_ANY</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net451|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;TFM_NET451;CPU_ANY</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net451|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;TFM_NET451;CPU_ANY</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net462|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;TFM_NET462;CPU_ANY</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net462|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;TFM_NET462;CPU_ANY</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.1|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;TFM_NETCOREAPP21;CPU_ANY</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.1|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;TFM_NETCOREAPP21;CPU_ANY</DefineConstants>
+  </PropertyGroup>
+
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net451'">
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net462'">
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
 
 </Project>
