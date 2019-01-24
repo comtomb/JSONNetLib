@@ -11,23 +11,19 @@ Library (and Nugget Package) for JSON
     - Load JSON into the fields/properties of an object: configurable De-Serialization
     - access to items using a path like syntax
 
-  -  Examples:
+  - Examples:
 
-        - Example1: 
-            ​	Create and populate a JSONDocument
-            ​	Save to file
+       - Example1: 
+           ​	Create and populate a JSONDocument
+           ​	Save to file
 
-        - Example2:
+       - Example2:
 
-            ​	Load a JSON File
-            ​	Extract items using a j-path
+           ​	Load a JSON File
+           ​	Extract items using a j-path
 
-        - Example3:
-            	create an object by loading  fields/property values from a JSON file
-            	Example is a car with engine and wheels
-            	demonstrate also use of "external" name
-            	demonstrate use of non-mandatory fields/properties
-           ​		
+       - Example3:
 
-License:
-​	MIT License
+            ​	create an object by loading  fields/property values from a JSON file
+     - License:
+        ​	MIT License
