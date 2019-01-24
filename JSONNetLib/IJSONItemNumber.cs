@@ -28,38 +28,93 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
-	public interface IJSONItemNumber : IJSONItem
+	/// <summary>
+	/// JSON Number
+	/// 
+	/// the number is internally represented as a string (following the JSON conventions)
+	/// 
+	/// several methods are provided to get/set the value as int32,int64, double
+	/// </summary>
+	public interface IJSONItemNumber : IJSONItemAtomic<string>
 	{
-		string Value {get;set;}
-		
+		/// <summary>
+		/// set as Int32
+		/// </summary>
+		/// <param name="v">value</param>
 		void Set(int v);
 
+		/// <summary>
+		/// set as Int64
+		/// </summary>
+		/// <param name="v">value</param>
 		void Set(long v);
-
+		/// <summary>
+		/// set as double
+		/// </summary>
+		/// <param name="v">value</param>
 		void Set(double v);
 
-		bool IsInt {
+		/// <summary>
+		/// true if the number can be converted to Int32
+		/// </summary>
+		bool IsInt 
+		{
 			get;
 		}
 
-		bool IsLong {
+		/// <summary>
+		/// true if the number can be converted to long
+		/// </summary>
+		bool IsLong 
+		{
+			get;
+		}
+		/// <summary>
+		/// true if the number can be converted to double
+		/// </summary>
+		bool IsDouble 
+		{
 			get;
 		}
 
-		bool IsIntDouble {
-			get;
-		}
-
+		/// <summary>
+		/// return the number as int
+		/// </summary>
+		/// <returns>int</returns>
+		/// <exception cref="InvalidOperationException"> if the number is not an int </exception>
 		int GetAsInt();
 
+		/// <summary>
+		/// return the number as long
+		/// </summary>
+		/// <returns>int</returns>
+		/// <exception cref="InvalidOperationException"> if the number is not a long</exception>
 		long GetAsLong();
-
+		/// <summary>
+		/// return the number as double
+		/// </summary>
+		/// <returns>int</returns>
+		/// <exception cref="InvalidOperationException"> if the number is not a double</exception>
 		double GetAsDouble();
-
+		/// <summary>
+		/// try to get the number as int
+		/// </summary>
+		/// <param name="v">when this method returns contains the int value of this number</param>
+		/// <returns>true if success</returns>
 		bool TryGetAsInt(out int v);
 
+		/// <summary>
+		/// try to get the number as long
+		/// </summary>
+		/// <param name="v">when this method returns contains the long value of this number</param>
+		/// <returns>true if success</returns>
 		bool TryGetAsLong(out long v);
 
+		/// <summary>
+		/// try to get the number as double
+		/// </summary>
+		/// <param name="v">when this method returns contains the double value of this number</param>
+		/// <returns>true if success</returns>
 		bool TryGetAsDouble(out double v);
 	}
 }

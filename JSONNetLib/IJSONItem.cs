@@ -28,8 +28,14 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
+	/// <summary>
+	/// base interface for all JSON Items
+	/// </summary>
 	public interface IJSONItem
 	{
+		/// <summary>
+		/// data type for this item
+		/// </summary>
 		JSONItemType ItemType 
 		{
 			get;

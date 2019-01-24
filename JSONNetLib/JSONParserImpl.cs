@@ -28,16 +28,27 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
+	/// <summary>
+	/// implementation of a Parser
+	/// 
+	/// the parser uses a JSONSource as wrapper for the actual input sources (string, files...) to read the source char by char
+	/// 	
+	/// </summary>
 	internal class JSONParserImpl : IJSONParser
 	{
 		#region sources
+		/// <summary>
+		/// read one char after the other...
+		/// </summary>
 		[DebuggerDisplay("'{CurrentCharAsChar}' ({currentChar}) @ {pos}")]
 		abstract class JSONSource : IDisposable
 		{
 			protected abstract int FetchNextChar();
 
-			protected char CurrentCharAsChar {
-				get {
+			protected char CurrentCharAsChar 
+			{
+				get 
+				{
 					return (char)currentChar;
 				}
 			}
@@ -46,6 +57,10 @@ namespace TomB.Util.JSON
 
 			public JSONParserPos pos = new JSONParserPos();
 
+			/// <summary>
+			/// next char, but fail on EOF
+			/// </summary>
+			/// <returns></returns>
 			public int ReadNextCharNoEOF()
 			{
 				int c = ReadNextChar();
@@ -53,7 +68,10 @@ namespace TomB.Util.JSON
 					throw new JSONException("EOF met");
 				return c;
 			}
-
+			/// <summary>
+			/// read the next char.
+			/// </summary>
+			/// <returns>next char, or -1 for EOF</returns>
 			public int ReadNextChar()
 			{
 				currentChar = FetchNextChar();
@@ -68,26 +86,36 @@ namespace TomB.Util.JSON
 				return currentChar;
 			}
 
+			/// <summary>
+			/// skip white space, fail if EOF is met
+			/// </summary>
+			/// <returns>next non-white character</returns>
 			public int SkipWhiteWithException()
 			{
 				int c = currentChar;
 				while (IsWhite(c))
-					c = ReadNextChar();
+					c = ReadNextCharNoEOF();
 				return c;
 			}
-
+			
 			protected bool IsWhite(int c)
 			{
 				return Char.IsWhiteSpace((char)c);
 			}
-
+			/// <summary>
+			/// skip whitespace, expect the first "non-white" char to be a specifc one
+			/// </summary>
+			/// <param name="expect"></param>
 			public void SkipWhiteExpect(int expect)
 			{
 				int c = SkipWhiteWithException();
 				if (c != expect)
 					throw new JSONUnexpectedCharException(c, expect, pos);
 			}
-
+			/// <summary>
+			/// read next char, expect it to a specific one
+			/// </summary>
+			/// <param name="expect"></param>
 			public void ReadNextExpect(int expect)
 			{
 				if (ReadNextChar() != expect)
@@ -116,7 +144,7 @@ namespace TomB.Util.JSON
 
 		class JSONSourceString : JSONSource
 		{
-			StringReader reader;
+			readonly StringReader reader;
 
 			public JSONSourceString(string str)
 			{
@@ -131,7 +159,7 @@ namespace TomB.Util.JSON
 
 		class JSONSourceReader : JSONSource
 		{
-			TextReader reader;
+			readonly TextReader reader;
 
 			public JSONSourceReader(TextReader reader)
 			{
@@ -145,8 +173,14 @@ namespace TomB.Util.JSON
 		}
 
 		#endregion
-		private IJSONDocument currentDoc;
 
+		/// <summary>
+		/// curren document
+		/// </summary>
+		private IJSONDocument currentDoc;
+		/// <summary>
+		/// current source
+		/// </summary>
 		private JSONSource currentSource;
 
 		public JSONParserImpl()
@@ -202,15 +236,24 @@ namespace TomB.Util.JSON
 		private IJSONDocument LoadFromSource(JSONSource source)
 		{
 			currentSource = source;
-			if (source.ReadNextChar() < 0)
-				throw new JSONException("unexpected end met");
-			currentDoc = JSONDocument.CreateDocument();
-			var root = ReadValue();
-			// TODO read til end?
-			currentDoc.Root = root;
-			return currentDoc;
+			using( currentSource )
+			{
+				if (source.ReadNextChar() < 0)
+					throw new JSONException("unexpected end met");
+				currentDoc = JSONDocument.CreateDocument();
+				var root = ReadValue();
+				// TODO read til end?
+				currentDoc.Root = root;
+				var cd=currentDoc;
+				currentDoc=null;
+				currentSource=null;
+				return cd;
+			}
 		}
-
+		/// <summary>
+		/// read a value
+		/// </summary>
+		/// <returns></returns>
 		private IJSONItem ReadValue()
 		{
 			switch ((char)currentSource.SkipWhiteWithException()) 

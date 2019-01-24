@@ -28,7 +28,7 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
-	internal class JSONItemNumber : JSONItemAtomic, IJSONItemNumber
+	internal class JSONItemNumber : JSONItemAtomic<string>, IJSONItemNumber
 	{
 		private JSONItemNumber()
 			: base(JSONItemType.Number,null)
@@ -56,16 +56,20 @@ namespace TomB.Util.JSON
 			Set(val);
 		}
 
-		public string Value
+		// override to prepare the syntax check
+		public override string Value
 		{
 			get
 			{
-				return (string)ValueAsObject;
+				return base.Value;
 			}
 			set
 			{
-				// TODO syntax check
-				ValueAsObject=value;
+				double v;
+				if( double.TryParse(value,out v) )
+					base.Value=value;
+				else
+					throw new InvalidOperationException();
 			}
 		}
 		
@@ -82,7 +86,6 @@ namespace TomB.Util.JSON
 		public void Set(double v)
 		{
 			Value = v.ToString();
-			// TODO localization ('E', '.'... )
 		}
 
 		public int GetAsInt()
@@ -127,22 +130,28 @@ namespace TomB.Util.JSON
 			return Double.TryParse(Value, out v);
 		}
 
-		public bool IsInt {
-			get {
+		public bool IsInt 
+		{
+			get 
+			{
 				int v;
 				return TryGetAsInt(out v);
 			}
 		}
 
-		public bool IsLong {
-			get {
+		public bool IsLong 
+		{
+			get 
+			{
 				long v;
 				return TryGetAsLong(out v);
 			}
 		}
 
-		public bool IsIntDouble {
-			get {
+		public bool IsDouble 
+		{
+			get 
+			{
 				double v;
 				return TryGetAsDouble(out v);
 			}

@@ -22,26 +22,29 @@
 // 
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
-	internal abstract class JSONItemAtomic : JSONItem, IJSONItemAtomic
+	internal abstract class JSONItemAtomic<T> : JSONItem, IJSONItemAtomic<T>
 	{
-		public object ValueAsObject {
+		public virtual T Value {
 			get;
-			protected set;
+			set;
 		}
 
-		protected JSONItemAtomic(JSONItemType type, object val) : base(type)
+		protected JSONItemAtomic(JSONItemType type, T val) : base(type)
 		{
-			ValueAsObject = val;
+			Value = val;
 		}
 		public override string ToString()
 		{
-			return ValueAsObject!=null?ValueAsObject.ToString():"<null>";
+			if( Comparer<T>.Default.Equals( default(T) ) )
+			   return "null";
+			return Value.ToString();
 		}
 
 	}

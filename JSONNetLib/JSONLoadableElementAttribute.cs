@@ -28,19 +28,35 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
+	/// <summary>
+	/// The attribute describes the detailed behaviour on how to load a single field/property
+	/// 
+	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	public class JSONLoadableElementAttribute : Attribute
 	{
-		public bool IsMandatory {
+		/// <summary>
+		/// specifies if the field needs a corresponding JSON item in the document
+		/// </summary>
+		public bool IsMandatory 
+		{
 			get;
 			private set;
 		}
-
-		public string ExternalName {
+		/// <summary>
+		/// specifies the name of the item in the JSON Document. This allows a name conversion. 
+		/// If not specified the name of the field/property is used to find the value in the source object
+		/// </summary>
+		public string ExternalName 
+		{
 			get;
 			private set;
 		}
-
+		/// <summary>
+		/// ctor
+		/// </summary>
+		/// <param name="mandatory"></param>
+		/// <param name="externalName"></param>
 		public JSONLoadableElementAttribute(bool mandatory = true, string externalName = null)
 		{
 			IsMandatory = mandatory;

@@ -51,8 +51,17 @@ namespace TomB.Util.JSON
 				throw new ArgumentException("no object as root");
 			LoadObject( dest, src.RootAsObject );
 		}
+		/// <summary>
+		/// load
+		/// </summary>
+		/// <param name="dest"></param>
+		/// <param name="src"></param>
 		private void LoadObject(object dest, IJSONItemObject src)
 		{
+			// setup
+			var loadableDest=dest as IJSONLoadableObject;
+			if(loadableDest!=null)
+				loadableDest.OnBeforeLoad();
 			bool clsMandatory=AllMandatory;
 			var clsLoadable=Loadable;
 			var clsAttr=(JSONLoadableClassAttribute)Attribute.GetCustomAttribute(dest.GetType(),typeof( JSONLoadableClassAttribute ) ) ;
@@ -61,6 +70,7 @@ namespace TomB.Util.JSON
 				clsMandatory=clsAttr.AllMandatory;
 				clsLoadable=clsAttr.Loadable;
 			}
+			// all fields
 			var fields=dest.GetType().GetFields(BindingFlags.NonPublic|BindingFlags.Public|BindingFlags.Instance);
 			foreach( var field in fields )
 			{
@@ -75,7 +85,6 @@ namespace TomB.Util.JSON
 					if( fieldAttr.ExternalName!=null)
 						extName=fieldAttr.ExternalName;
 				}
-				Debug.WriteLine(field.IsPublic );
 				if( !(((clsLoadable & JSONLoadableType.Loadable)!=0 && fieldAttr!=null)					// skip loadable
 				   || ( (clsLoadable & JSONLoadableType.PublicFields)!=0 && field.IsPublic )			// skip public field
 				   || ( (clsLoadable & JSONLoadableType.NonPublicFields)!=0 && !field.IsPublic)))		// skip a nonPublic field
@@ -88,39 +97,43 @@ namespace TomB.Util.JSON
 					continue;
 				}
 				var fieldValue=MapItem(item, field.FieldType );
-				field.SetValue(dest,fieldValue);
+				if( loadableDest==null || loadableDest.OnSetField(field,fieldValue,out fieldValue) )
+					field.SetValue(dest,fieldValue);
 			}
+			// all properties
 			var properties=dest.GetType().GetProperties(BindingFlags.NonPublic|BindingFlags.Public|BindingFlags.Instance);
 			foreach(var property in properties )
 			{
-				var fieldAttr=(JSONLoadableElementAttribute)property.GetCustomAttribute( typeof(JSONLoadableElementAttribute) );
-				var fieldLoadable=clsLoadable;
+				var propertyAttr=(JSONLoadableElementAttribute)property.GetCustomAttribute( typeof(JSONLoadableElementAttribute) );
+				var propertyLoadable=clsLoadable;
 				string extName=property.Name;;
-				bool fieldMandatory=clsMandatory;
+				bool propertyMandatory=clsMandatory;
 				
-				if( fieldAttr!=null )
+				if( propertyAttr!=null )
 				{
-					fieldMandatory=fieldAttr.IsMandatory;
-					if( fieldAttr.ExternalName!=null)
-						extName=fieldAttr.ExternalName;
+					propertyMandatory=propertyAttr.IsMandatory;
+					if( propertyAttr.ExternalName!=null)
+						extName=propertyAttr.ExternalName;
 				}
 				bool isPublic=property.GetMethod.IsPublic;
-				if( !(((clsLoadable & JSONLoadableType.Loadable)!=0 && fieldAttr!=null)					// skip loadable
+				if( !(((clsLoadable & JSONLoadableType.Loadable)!=0 && propertyAttr!=null)					// skip loadable
 				   || ( (clsLoadable & JSONLoadableType.PublicProperties)!=0 && isPublic )			// skip public field
 				   || ( (clsLoadable & JSONLoadableType.NonPublicProperties)!=0 && !isPublic)))		// skip a nonPublic field
 					continue;
 				IJSONItem item;
 				if( !src.TryGetValue(extName,out item) )
 				{
-					if( fieldMandatory)
+					if( propertyMandatory)
 						throw new ArgumentException("missing mandatory field '"+extName+"'");
 					continue;
 				}
-				var fieldValue=MapItem(item, property.PropertyType );
-				property.SetValue(dest,fieldValue);
+				var propertyValue=MapItem(item, property.PropertyType );
+				if( loadableDest==null || loadableDest.OnSetProperty(property,propertyValue,out propertyValue) )
+					property.SetValue(dest,propertyValue);
 				
 			}
-			
+			if( loadableDest!=null)
+				loadableDest.OnAfterLoad();
 			
 		}
 		
@@ -148,7 +161,7 @@ namespace TomB.Util.JSON
 							return ret;
 						}
 						else
-							throw new InvalidOperationException();
+							throw new InvalidOperationException("array expected");
 					}
 				case JSONItemType.Object:
 					{
@@ -159,10 +172,17 @@ namespace TomB.Util.JSON
 				case JSONItemType.Number:
 					if( expectedType==typeof(Int32) && ((IJSONItemNumber)item).IsInt )
 						return ((IJSONItemNumber)item).GetAsInt();
+					if( expectedType==typeof(long) && ((IJSONItemNumber)item).IsLong )
+						return ((IJSONItemNumber)item).GetAsLong();
+					if( expectedType==typeof(double) && ((IJSONItemNumber)item).IsDouble )
+						return ((IJSONItemNumber)item).GetAsInt();
+					if( expectedType==typeof(string)  )
+						return ((IJSONItemNumber)item).Value;
+					
 					throw new InvalidOperationException();
 				case JSONItemType.Null:
 					return null;
-				case JSONItemType.Bool:
+				case JSONItemType.Bool:							
 					return ((IJSONItemBool)item).Value;
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -175,15 +195,4 @@ namespace TomB.Util.JSON
 		}
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

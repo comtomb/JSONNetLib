@@ -28,23 +28,44 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
+	/// <summary>
+	/// Attribute for controlling an <see cref="IJSONObjectLoader"/>
+	/// this attribute is used to define which fields/properties will be loaded
+	/// </summary>
 	[AttributeUsage(AttributeTargets.Class)]
 	public class JSONLoadableClassAttribute : Attribute
 	{
+		/// <summary>
+		/// Default: All loadable fields/properties must have a corresponding item in the source document 
+		/// </summary>
 		public const bool DefaultAllMandatory = true;
 
+		/// <summary>
+		/// Default: Only public Fields are loaded
+		/// </summary>
 		public const JSONLoadableType DefaultLoadable = JSONLoadableType.PublicFields;
 
-		public JSONLoadableType Loadable {
+		/// <summary>
+		/// specifies which fields/properties are loaded
+		/// </summary>
+		public JSONLoadableType Loadable 
+		{
 			get;
 			private set;
 		}
-
-		public bool AllMandatory {
+		/// <summary>
+		/// specifies if all fields/properties must have a corresponding item in the source
+		/// </summary>
+		public bool AllMandatory 
+		{
 			get;
 			private set;
 		}
-
+		/// <summary>
+		/// ctor
+		/// </summary>
+		/// <param name="tpe"></param>
+		/// <param name="allMandatory"></param>
 		public JSONLoadableClassAttribute(JSONLoadableType tpe = DefaultLoadable, bool allMandatory = DefaultAllMandatory)
 		{
 			Loadable = tpe;

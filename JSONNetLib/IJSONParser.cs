@@ -28,16 +28,48 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
+	/// <summary>
+	/// Parser for JSON Sources
+	/// Load <see cref="IJSONDocument"/> from several sources
+	/// </summary>
 	public interface IJSONParser
 	{
+		/// <summary>
+		/// Load a <see cref="IJSONDocument"/> from a stream
+		/// </summary>
+		/// <param name="s">source</param>
+		/// <returns>document read from the source</returns>
+		/// <exception cref="JSONException">parsing error</exception>
 		IJSONDocument LoadFromStream(Stream s);
 
+		/// <summary>
+		/// Load a <see cref="IJSONDocument"/> from a file
+		/// </summary>
+		/// <param name="fname">filename</param>
+		/// <returns>document read from the source</returns>
+		/// <exception cref="JSONException">parsing error</exception>
 		IJSONDocument LoadFromFile(string fname);
-
+		/// <summary>
+		/// Load a <see cref="IJSONDocument"/> from a string
+		/// </summary>
+		/// <param name="json">JSON string</param>
+		/// <returns>document read from the source</returns>
+		/// <exception cref="JSONException">parsing error</exception>
 		IJSONDocument LoadFromString(string json);
 
+		/// <summary>
+		/// Load a <see cref="IJSONDocument"/> from a URI using HTTP
+		/// </summary>
+		/// <param name="uri">URI where the JSON text is location</param>
+		/// <returns>document read from the source</returns>
+		/// <exception cref="JSONException">parsing error</exception>
 		IJSONDocument LoadFromHttp(string uri);
-
+		/// <summary>
+		/// Load a <see cref="IJSONDocument"/> from a TextReader
+		/// </summary>
+		/// <param name="s">source</param>
+		/// <returns>document read from the source</returns>
+		/// <exception cref="JSONException">parsing error</exception>		
 		IJSONDocument LoadFromReader(TextReader s);
 	}
 }

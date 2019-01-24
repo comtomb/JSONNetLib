@@ -28,9 +28,17 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
+	/// <summary>
+	/// exception during parsing of a JSON Source
+	/// </summary>
 	public class JSONException : Exception
 	{
+		/// <summary>
+		/// ctor
+		/// </summary>
+		/// <param name="msg"></param>
 		public JSONException(string msg)
+			: base(msg)
 		{
 		}
 	}

@@ -28,18 +28,24 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
-	public interface IJSONItemBool : IJSONItem
+	/// <summary>
+	/// boolean JSON Item (true/false)
+	/// </summary>
+	public interface IJSONItemBool : IJSONItemAtomic<bool>
 	{
-		bool Value {
+		/// <summary>
+		/// return if this is 'true'
+		/// </summary>
+		bool IsTrue 
+		{
 			get;
-			set;
 		}
 
-		bool IsTrue {
-			get;
-		}
-
-		bool IsFalse {
+		/// <summary>
+		/// return if this is 'false'
+		/// </summary>
+		bool IsFalse 
+		{
 			get;
 		}
 	}

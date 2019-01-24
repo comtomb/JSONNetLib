@@ -28,12 +28,35 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
-	public interface IJSONItemArray : IJSONItem, IList<IJSONItem>
-	{
+	/// <summary>
+	/// Representation of a JSON Array
+	/// </summary>
+	public interface IJSONItemArray : IJSONItemGroup, IList<IJSONItem>
+	{		
+		/// <summary>
+		/// Add a String Item
+		/// </summary>
+		/// <param name="value">string</param>
 		void Add(string value);
+		/// <summary>
+		/// Add a number item
+		/// </summary>
+		/// <param name="value">int</param>
 		void Add(int value);
+		/// <summary>
+		/// Add a number item
+		/// </summary>
+		/// <param name="value">long</param>
 		void Add(long value);
+		/// <summary>
+		/// Add a number item
+		/// </summary>
+		/// <param name="value">double</param>
 		void Add(double value);
+		/// <summary>
+		/// Add a bool item
+		/// </summary>
+		/// <param name="value">bool</param>
 		void Add(bool value);
 	}
 }

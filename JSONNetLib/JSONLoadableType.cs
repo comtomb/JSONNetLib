@@ -28,16 +28,44 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
+	/// <summary>
+	/// Flags to specify which fields/properties should be loaded
+	/// The flags can be combined by | (or)
+	/// </summary>
 	[Flags]
 	public enum JSONLoadableType
 	{
+		/// <summary>
+		/// public fields are loaded
+		/// </summary>
 		PublicFields = 1,
+		/// <summary>
+		/// non-public fields are loaded
+		/// </summary>
 		NonPublicFields = 2,
+		/// <summary>
+		/// public properties are loaded
+		/// </summary>
 		PublicProperties = 4,
+		/// <summary>
+		/// public properties are loaded
+		/// </summary>
 		NonPublicProperties = 8,
+		/// <summary>
+		/// fields/properties marked with <see cref="JSONLoadableElementAttribute"/> are loaded
+		/// </summary>
 		Loadable = 65536,
+		/// <summary>
+		/// public fields and public properties
+		/// </summary>
 		Public = PublicFields | PublicProperties,
+		/// <summary>
+		/// public and non public Fields
+		/// </summary>
 		Fields = PublicFields | NonPublicFields,
+		/// <summary>
+		/// publoc and non public properties
+		/// </summary>
 		Properties = PublicProperties | NonPublicProperties
 	}
 }

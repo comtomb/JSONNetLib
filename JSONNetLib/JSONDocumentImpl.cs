@@ -28,6 +28,9 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
+	/// <summary>
+	/// Document implementation
+	/// </summary>
 	internal class JSONDocumentImpl : IJSONDocument
 	{
 		public IJSONItem Root {
@@ -95,12 +98,13 @@ namespace TomB.Util.JSON
 
 		public IJSONItem RetrieveItem(string jpath)
 		{
+			// split the jpath, and treat each sub-string as a "level" in the document
+			// TODO handle mask of '.'
 			var parts=jpath.Split('.');
 			var run=Root;
 			for(int i=0;i<parts.Length;i++)
 			{
 				var cp=parts[i];
-				// TODO handle mask of '.'
 				if( run.ItemType==JSONItemType.Object )
 				{
 					IJSONItem subItem;
@@ -123,7 +127,7 @@ namespace TomB.Util.JSON
 								run=((IJSONItemArray)run)[idx];
 							}
 							else
-								throw new ArgumentOutOfRangeException("illegal index " + idx);
+								throw new ArgumentOutOfRangeException("illegal index " + cp );
 						}
 						else
 							throw new ArgumentException("can't find " + cp);
@@ -140,19 +144,25 @@ namespace TomB.Util.JSON
 
 		public IJSONItemObject RetrieveItemObject(string jpath)
 		{
-			return RetrieveItem(jpath) as IJSONItemObject;
+			var s=RetrieveItem(jpath) as IJSONItemObject;
+			if( s==null)
+				throw new InvalidOperationException("no object");
+			return s;			
 		}
 
 		public IJSONItemArray RetrieveItemArray(string jpath)
 		{
-			return RetrieveItem(jpath) as IJSONItemArray;
+			var s=RetrieveItem(jpath) as IJSONItemArray;
+			if( s==null)
+				throw new InvalidOperationException("no array");
+			return s;			
 		}
 
 		public string RetrieveItemString(string jpath)
 		{
 			var s = RetrieveItem(jpath) as IJSONItemString;
 			if( s==null)
-				throw new ArgumentException("no string");
+				throw new InvalidOperationException("no string");
 			return s.Value;
 		}
 
@@ -160,14 +170,14 @@ namespace TomB.Util.JSON
 		{
 			var item=RetrieveItem(jpath) as IJSONItemNumber;
 			if(item==null)
-				throw new ArgumentException("no number");
+				throw new InvalidOperationException("no number");
 			return item;
 		}
 		public bool RetrieveItemBool(string jpath)
 		{
 			var item=RetrieveItem(jpath) as IJSONItemBool;
 			if( item==null)
-				throw new ArgumentException("no bool");
+				throw new InvalidOperationException("no bool");
 			return item.Value;
 			
 		}
@@ -177,7 +187,7 @@ namespace TomB.Util.JSON
 			int v;
 			if( item.TryGetAsInt(out v ) )
 				return v;
-			throw new ArgumentException("no int");			
+			throw new InvalidOperationException("no int");			
 		}
 	}
 }

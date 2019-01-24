@@ -28,16 +28,31 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
+	/// <summary>
+	/// unexpected char during parsing of a JSON source
+	/// </summary>
 	public class JSONUnexpectedCharException : JSONException
-	{
+	{		
+		/// <summary>
+		/// ctor
+		/// </summary>
 		internal JSONUnexpectedCharException() : base("unexcpected char")
 		{
 		}
-
+		/// <summary>
+		/// ctor
+		/// </summary>
+		/// <param name="found"></param>
+		/// <param name="pos"></param>
 		internal JSONUnexpectedCharException(int found, JSONParserPos pos) : base("unexcpected char '" + (char)found + "' @" + pos.ToString())
 		{
 		}
-
+		/// <summary>
+		/// ctor
+		/// </summary>
+		/// <param name="found"></param>
+		/// <param name="expected"></param>
+		/// <param name="pos"></param>
 		internal JSONUnexpectedCharException(int found, int expected, JSONParserPos pos) : base("unexcpected char '" + (char)found + "' (expected '" + (char)expected + "') @" + pos.ToString())
 		{
 		}

@@ -29,6 +29,7 @@ namespace Example3
 			
 			Console.Write("Press any key to continue . . . ");
 			Console.ReadKey(true);
+			
 		}
 	}
 	/// <summary>
@@ -37,8 +38,8 @@ namespace Example3
 	/// </summary>
 	class Wheel
 	{
-		public string location;
-		public bool available;		
+		public string location=string.Empty;
+		public bool available=false;		
 	}
 	/// <summary>
 	/// the engine
@@ -47,8 +48,8 @@ namespace Example3
 	[JSONLoadableClass(tpe:JSONLoadableType.NonPublicFields)]
 	class Engine
 	{
-		internal int heads;
-		internal string fuel;
+		internal int heads=0;
+		internal string fuel=string.Empty;
 		public int ignored=-1;
 	}
 	/// <summary>
@@ -60,16 +61,16 @@ namespace Example3
 	class Car
 	{
 		[JSONLoadableElement(externalName:"model")]
-		internal string Model;
+		internal string Model=string.Empty;
 		
 		[JSONLoadableElement]
-		internal Engine engine;
+		internal Engine engine=null;
 		
 		[JSONLoadableElement]
-		public Wheel[] wheels;
+		public Wheel[] wheels=null;
 		
 		[JSONLoadableElement]
-		private int[] somenumbers;
+		private int[] somenumbers=null;
 		
 		
 		[JSONLoadableElement]

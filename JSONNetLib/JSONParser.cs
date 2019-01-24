@@ -28,8 +28,15 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
+	/// <summary>
+	/// Factory clas to create a <see cref="IJSONParser"/>
+	/// </summary>
 	public static class JSONParser
 	{
+		/// <summary>
+		/// create a new Parser
+		/// </summary>
+		/// <returns></returns>
 		public static IJSONParser CreateParser()
 		{
 			return new JSONParserImpl();

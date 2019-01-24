@@ -28,7 +28,7 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
-	internal class JSONItemNull : JSONItemAtomic, IJSONItemNull
+	internal class JSONItemNull : JSONItemAtomic<object>, IJSONItemNull
 	{
 		public JSONItemNull() : base(JSONItemType.Null, null)
 		{

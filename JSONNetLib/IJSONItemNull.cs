@@ -28,7 +28,10 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
-	public interface IJSONItemNull : IJSONItem
+	/// <summary>
+	/// interface for a null item 
+	/// </summary>
+	public interface IJSONItemNull : IJSONItemAtomic<object>
 	{
 	}
 }

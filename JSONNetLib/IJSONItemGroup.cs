@@ -28,6 +28,9 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
+	/// <summary>
+	/// (empty) base interface for grouping items (items with subitems): <see cref="IJSONItemObject"/> and <see cref="IJSONItemArray"/>
+	/// </summary>
 	public interface IJSONItemGroup : IJSONItem
 	{
 	}

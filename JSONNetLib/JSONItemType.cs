@@ -28,14 +28,38 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
+	/// <summary>
+	/// all possible JSON Datatypes
+	/// </summary>
 	public enum JSONItemType
 	{
+		/// <summary>
+		/// not used
+		/// </summary>
 		Undefined = 0,
+		/// <summary>
+		/// string
+		/// </summary>
 		String,
+		/// <summary>
+		/// array
+		/// </summary>
 		Array,
+		/// <summary>
+		/// object
+		/// </summary>
 		Object,
+		/// <summary>
+		/// number
+		/// </summary>
 		Number,
+		/// <summary>
+		/// null
+		/// </summary>
 		Null,
+		/// <summary>
+		/// bool: true/false
+		/// </summary>
 		Bool
 	}
 }

@@ -28,9 +28,16 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
-	public interface IJSONItemAtomic : IJSONItem
+	/// <summary>
+	/// generic base interface for all atomic JSON items: bool,null,number,string
+	/// </summary>
+	public interface IJSONItemAtomic<T> : IJSONItem
 	{
-		Object ValueAsObject {
+		/// <summary>
+		/// Value of the item
+		/// </summary>
+		T Value
+		{
 			get;
 		}
 	}

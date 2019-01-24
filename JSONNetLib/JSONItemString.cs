@@ -28,20 +28,12 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
-	internal class JSONItemString : JSONItemAtomic, IJSONItemString
+	internal class JSONItemString : JSONItemAtomic<string>, IJSONItemString
 	{
 		public JSONItemString(string val) : base(JSONItemType.String, val)
 		{
 		}
 
-		public string Value {
-			get {
-				return (string)ValueAsObject;
-			}
-			set {
-				ValueAsObject = value;
-			}
-		}
 	}
 }
 

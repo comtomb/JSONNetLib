@@ -28,12 +28,41 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
-	public interface IJSONItemObject : IJSONItem, IDictionary<string, IJSONItem>
+	/// <summary>
+	/// JSON Object {}
+	/// the object is an IDictionary  
+	/// </summary>
+	public interface IJSONItemObject : IJSONItemGroup, IDictionary<string, IJSONItem>
 	{		
+		/// <summary>
+		/// Add a string item
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="value"></param>
 		void Add(string key,string value);
+		/// <summary>
+		/// Add a number item
+		/// </summary>
+		/// <param name="key">key</param>
+		/// <param name="value">value</param>
 		void Add(string key,int value);
+		/// <summary>
+		/// Add a number item
+		/// </summary>
+		/// <param name="key">key</param>
+		/// <param name="value">value</param>
 		void Add(string key,long value);
+		/// <summary>
+		/// Add a number item
+		/// </summary>
+		/// <param name="key">key</param>
+		/// <param name="value">value</param>
 		void Add(string key,double value);
+		/// <summary>
+		/// Add a bool item
+		/// </summary>
+		/// <param name="key">key</param>
+		/// <param name="value">value</param>
 		void Add(string key,bool value);
 	}
 }

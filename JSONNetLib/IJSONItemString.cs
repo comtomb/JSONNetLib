@@ -28,12 +28,11 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
-	public interface IJSONItemString : IJSONItem
+	/// <summary>
+	/// String item
+	/// </summary>
+	public interface IJSONItemString : IJSONItemAtomic<string>
 	{
-		string Value {
-			get;
-			set;
-		}
 	}
 }
 

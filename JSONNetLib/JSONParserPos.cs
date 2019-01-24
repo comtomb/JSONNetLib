@@ -28,12 +28,22 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
+	/// <summary>
+	/// helper to track the current position during parsing of a JSON source 
+	/// </summary>
 	internal class JSONParserPos
 	{
+		/// <summary>
+		/// position in stream (number of chars read)
+		/// </summary>
 		public int streamPos;
-
+		/// <summary>
+		/// column
+		/// </summary>
 		public int column;
-
+		/// <summary>
+		/// row
+		/// </summary>
 		public int row;
 
 		public JSONParserPos()
@@ -45,7 +55,7 @@ namespace TomB.Util.JSON
 
 		public override string ToString()
 		{
-			return String.Format("{0}:{1}.{2}", streamPos, row, column);
+			return String.Format("pos={0} row={1} col={2}", streamPos, row, column);
 		}
 	}
 }

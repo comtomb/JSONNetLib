@@ -28,13 +28,37 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
+	/// <summary>
+	/// Object Loader
+	/// Can load the fields/properties of an object from a <see cref="IJSONDocument"/>
+	/// 
+	/// the loader interacts with <see cref="IJSONLoadableObject"/> and can be controlled by the attributes
+	/// <see cref="JSONLoadableClassAttribute"/> and <see cref="JSONLoadableElementAttribute"/>
+	/// 
+	/// if the class to be loaded is not declared with a <see cref="JSONLoadableClassAttribute"/> this attribute it's default values are used
+	/// 	
+	/// </summary>
 	public interface IJSONObjectLoader
 	{
+		/// <summary>
+		/// Flag if all Fields/Properties matched by Loadable are mandatory. Default: <see cref="JSONLoadableClassAttribute.DefaultAllMandatory"/>
+		/// </summary>
 		bool AllMandatory {get;set;}
+		/// <summary>
+		/// Flags which Fields/Properties should be loaded. Default: <see cref="JSONLoadableClassAttribute.DefaultLoadable"/>
+		/// </summary>
 		JSONLoadableType Loadable {get;set;}
-		
+		/// <summary>
+		/// load the fields/properties of an object from a document
+		/// </summary>
+		/// <param name="dest">object to be loaded. this object can implement <see cref="IJSONLoadableObject"/></param>
+		/// <param name="src">source document</param>
 		void LoadObject(object dest, IJSONDocument src);
-
+		/// <summary>
+		/// create a new object and load it from a JSON Document
+		/// </summary>
+		/// <param name="src">source</param>
+		/// <returns>created document</returns>
 		T CreateObject<T>(IJSONDocument src) where T : new();
 	}
 }

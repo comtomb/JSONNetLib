@@ -6,7 +6,9 @@ using System.Text;
 
 namespace TomB.Util.JSON
 {
-	
+	/// <summary>
+	/// simple writer without any formatting
+	/// </summary>
 	internal class JSONUnformattedWriter : AbstractJSONWriter
 	{
 		public JSONUnformattedWriter()

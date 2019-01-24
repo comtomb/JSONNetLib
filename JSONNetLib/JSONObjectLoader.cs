@@ -28,9 +28,15 @@ using System.IO;
 using System.Text;
 namespace TomB.Util.JSON
 {
-	
+	/// <summary>
+	/// Factory class to create a <see cref="IJSONObjectLoader"/>
+	/// </summary>
 	public static class JSONObjectLoader
 	{
+		/// <summary>
+		/// create a new ObjectLoader
+		/// </summary>
+		/// <returns>new loader</returns>
 		public static IJSONObjectLoader CreateLoader()
 		{
 			return new JSONObjectLoaderImpl();
