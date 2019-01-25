@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using System.Text;
 namespace TomB.Util.JSON
 {
@@ -129,7 +130,7 @@ namespace TomB.Util.JSON
 
 		class JSONSourceStream : JSONSource
 		{
-			StreamReader reader;
+			readonly StreamReader reader;
 
 			public JSONSourceStream(Stream s)
 			{
@@ -138,7 +139,13 @@ namespace TomB.Util.JSON
 
 			protected override int FetchNextChar()
 			{
-				return reader.Read();
+				try
+				{
+					return reader.Read();
+				} catch(IOException e)
+				{
+					throw new JSONException("io" ,e );
+				}
 			}
 		}
 
@@ -190,7 +197,8 @@ namespace TomB.Util.JSON
 		#region public interface
 		public IJSONDocument LoadFromStream(Stream s)
 		{
-			using (var src = new JSONSourceStream(s)) {
+			using (var src = new JSONSourceStream(s)) 
+			{
 				return LoadFromSource(src);
 			}
 		}
@@ -213,13 +221,19 @@ namespace TomB.Util.JSON
 		{
 			using (var client = new System.Net.Http.HttpClient()) 
 			{
-				using (var resp = client.GetAsync(uri).Result) 
+				try
 				{
-					resp.EnsureSuccessStatusCode();
-					using (var stream = resp.Content.ReadAsStreamAsync().Result) 
+					using (var resp = client.GetAsync(uri).Result) 
 					{
-						return LoadFromStream(stream);
+						resp.EnsureSuccessStatusCode();
+						using (var stream = resp.Content.ReadAsStreamAsync().Result) 
+						{
+							return LoadFromStream(stream);
+						}
 					}
+				} catch( HttpRequestException e)
+				{
+					throw new JSONException("http failed",e);
 				}
 			}
 		}
