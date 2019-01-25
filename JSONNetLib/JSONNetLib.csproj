@@ -60,6 +60,8 @@
     <Description>Library to parse JSON Data
 
 </Description>
+    <Version>1.0.1</Version>
+    <FileVersion>1.0.1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
