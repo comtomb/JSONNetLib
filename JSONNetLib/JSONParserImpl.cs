@@ -239,15 +239,25 @@ namespace TomB.Util.JSON
 			using( currentSource )
 			{
 				if (source.ReadNextChar() < 0)
-					throw new JSONException("unexpected end met");
+					throw new JSONException("unexpected end met");				
 				currentDoc = JSONDocument.CreateDocument();
-				var root = ReadValue();
-				// TODO read til end?
-				currentDoc.Root = root;
-				var cd=currentDoc;
-				currentDoc=null;
-				currentSource=null;
-				return cd;
+				try
+				{
+					var root = ReadValue();
+					// TODO read til end?
+					currentDoc.Root = root;
+					var cd=currentDoc;
+					currentDoc=null;
+					currentSource=null;
+					return cd;
+				} catch( InvalidOperationException e)
+				{
+					throw new JSONException("Invalid Operation @ " + currentSource.pos , e);
+				}
+				catch( ArgumentException e)
+				{
+					throw new JSONException("Invalid Argument @ " + currentSource.pos , e);
+				}
 			}
 		}
 		/// <summary>

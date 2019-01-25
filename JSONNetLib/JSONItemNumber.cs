@@ -35,23 +35,24 @@ namespace TomB.Util.JSON
 		{
 			
 		}
+				
 		public JSONItemNumber(string val) 
-			:this()
+			:base(JSONItemType.Number,val)
 		{
 			Value=val;
 		}
-		public JSONItemNumber(int val)
-			: this()
+		public JSONItemNumber(int val)			
+			: base(JSONItemType.Number)
 		{
 			Set(val);
 		}
 		public JSONItemNumber(long val)
-			: this()
+			: base(JSONItemType.Number)
 		{
 			Set(val);
 		}
 		public JSONItemNumber(double val)
-			: this()
+			: base(JSONItemType.Number)
 		{
 			Set(val);
 		}

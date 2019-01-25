@@ -40,6 +40,9 @@ namespace TomB.Util.JSON
 		{
 			Value = val;
 		}
+		protected JSONItemAtomic(JSONItemType type) : base(type)
+		{
+		}
 		public override string ToString()
 		{
 			if( Comparer<T>.Default.Equals( default(T) ) )

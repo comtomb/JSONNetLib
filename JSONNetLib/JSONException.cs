@@ -41,6 +41,16 @@ namespace TomB.Util.JSON
 			: base(msg)
 		{
 		}
+		/// <summary>
+		/// ctor
+		/// </summary>
+		/// <param name="msg"></param>
+		/// <param name="innerException"></param>
+		public JSONException(string msg,Exception innerException)
+			: base(msg,innerException)
+		{
+			
+		}
 	}
 }
 
